@@ -5,6 +5,7 @@ from src.logger import logging
 import pandas as pd 
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
+from src.components.data_transformation import DataTransformation,DataTransformationConfig
 
 @dataclass
 class DataIngestionConfig:
@@ -22,7 +23,7 @@ class DataIngestion:
             df = pd.read_csv('./notebook/data/stud.csv')
             logging.info('Readed the dataframe')
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
-            
+
             # Data Dump
             df.to_csv(self.ingestion_config.raw_data_path,index=False,header=True)
             logging.info("Train test split is started")
@@ -43,4 +44,7 @@ class DataIngestion:
         
 if __name__ == "__main__":
     obj = DataIngestion()
-    obj.initiate_data_ingestion()
+    train,test=obj.initiate_data_ingestion()
+    data_tranformation = DataTransformation()
+    data_tranformation.initiate_data_transformation(train,test)
+    print(data_tranformation)
