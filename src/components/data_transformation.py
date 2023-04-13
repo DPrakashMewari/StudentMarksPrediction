@@ -62,6 +62,7 @@ class DataTransformation:
         except Exception as e:
             raise MyException(e,sys)
     def initiate_data_transformation(self,train,test):
+        """Applying Here Transformation And Dump into Pickle In Short"""
         try:
             train_df = pd.read_csv(train)
             test_df = pd.read_csv(test)
@@ -81,9 +82,7 @@ class DataTransformation:
             )
             input_feature_train_arr = preprocessing.fit_transform(input_feature_train_df)
             input_feature_test_arr = preprocessing.transform(input_feature_test_df)
-            train_arr = np.c_[
-                input_feature_train_arr, np.array(target_feature_train_df)
-            ]
+            train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
             logging.info(f"Saved preprocessing object.")
 
