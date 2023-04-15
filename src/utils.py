@@ -3,6 +3,8 @@ import sys
 from sklearn.metrics import r2_score
 import pickle
 from src.exception import MyException
+from sklearn.model_selection import GridSearchCV
+from src.logger import logging
 
 def save_object(filepath,obj):
     try:
@@ -14,15 +16,21 @@ def save_object(filepath,obj):
     except Exception as e:
         raise MyException(e,sys)    
     
-def evaluate_models(X_train, y_train,X_test,y_test,models):
+def evaluate_models(X_train, y_train,X_test,y_test,models,param):
     try:
         report = {}
 
         for i in range(len(list(models))):
             model = list(models.values())[i]
+            para=param[list(models.keys())[i]]
 
-
+            gs = GridSearchCV(model,para,cv=3)
+            gs.fit(X_train,y_train)
+            logging.info('Grid Search Called For Tunning')
+            
+            model.set_params(**gs.best_params_)
             model.fit(X_train,y_train)
+
 
             #model.fit(X_train, y_train)  # Train model
 

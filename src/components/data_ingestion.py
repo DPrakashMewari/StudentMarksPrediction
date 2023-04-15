@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 from src.components.data_transformation import DataTransformation,DataTransformationConfig
 from src.components.model_trainer import ModeltrainerConfig,ModelTrainer
+
 @dataclass
 class DataIngestionConfig:
     train_data_path : str =os.path.join('artifacts','train.csv')
